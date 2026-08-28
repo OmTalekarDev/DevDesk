@@ -2,19 +2,24 @@
 
 > A full-stack developer productivity workspace built with Python, FastAPI, SQLite, HTML, CSS and JavaScript.
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![CI](https://github.com/OmTalekarDev/DevDesk/actions/workflows/ci.yml/badge.svg)](https://github.com/OmTalekarDev/DevDesk/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 ## ✨ Features
 
-- 📊 Developer dashboard with live task statistics
-- ✅ Full task CRUD: create, read, update, complete and delete
+- 📊 Dashboard with live productivity statistics and a 7-day activity chart
+- 🔐 Registration, login, bearer-token sessions and logout
+- ✅ User-scoped task CRUD: create, read, update, complete and delete
 - 🔎 Client-side task search
-- 📝 Quick notes stored in the browser
-- 🌙 Responsive dark developer UI
-- 🩺 Health endpoint for service monitoring
-- 📚 Automatic FastAPI interactive API documentation
+- 📝 Quick notes stored locally in the browser
+- ✦ Optional AI developer assistant through an OpenAI-compatible API
+- 🩺 Health endpoint and automatic FastAPI docs
+- 🧪 API tests with pytest
+- ⚙️ GitHub Actions CI on pushes and pull requests
+- 🐳 Docker-ready deployment configuration
 
 ## 🧱 Architecture
 
@@ -25,13 +30,15 @@ Browser
   │
   ▼
 FastAPI
-  │
-  ├── Task API
-  ├── Validation
-  └── Static file server
+  ├── Authentication & sessions
+  ├── Task REST API
+  ├── Productivity statistics
+  └── Optional AI provider
   │
   ▼
 SQLite
+  ├── users
+  ├── sessions
   └── tasks
 ```
 
@@ -40,17 +47,25 @@ SQLite
 ```text
 DevDesk/
 ├── app/
-│   ├── __init__.py
 │   ├── main.py
+│   ├── auth.py
+│   ├── ai.py
 │   ├── database.py
 │   ├── models.py
 │   ├── schemas.py
+│   ├── schemas_auth.py
+│   ├── stats.py
 │   └── static/
 │       ├── index.html
 │       ├── style.css
 │       └── app.js
+├── tests/
+│   └── test_api.py
+├── .github/workflows/ci.yml
+├── Dockerfile
+├── render.yaml
+├── .env.example
 ├── requirements.txt
-├── .gitignore
 └── README.md
 ```
 
@@ -60,49 +75,84 @@ DevDesk/
 git clone https://github.com/OmTalekarDev/DevDesk.git
 cd DevDesk
 python -m venv .venv
-```
-
-Activate the environment, then:
-
-```bash
+# Windows: .venv\\Scripts\\activate
+# Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000` for the dashboard.
+Open `http://127.0.0.1:8000` and create an account.
 
-Interactive API docs are available at `http://127.0.0.1:8000/docs`.
+API docs: `http://127.0.0.1:8000/docs`
+
+### Environment
+
+Copy `.env.example` to your own environment configuration. Never commit real API keys.
+
+For the optional AI assistant, configure:
+
+```text
+AI_API_URL=<OpenAI-compatible chat completions endpoint>
+AI_API_KEY=<your secret>
+AI_MODEL=<model name>
+```
 
 ## 🔌 API
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET | `/` | Serve the dashboard |
 | GET | `/health` | Health/status check |
+| POST | `/auth/register` | Create an account |
+| POST | `/auth/login` | Create a session |
+| POST | `/auth/logout` | Revoke a session |
+| GET | `/auth/me` | Current user |
 | POST | `/tasks` | Create a task |
-| GET | `/tasks` | List tasks |
+| GET | `/tasks` | List current user's tasks |
 | GET | `/tasks/{id}` | Get one task |
 | PATCH | `/tasks/{id}` | Update a task |
 | DELETE | `/tasks/{id}` | Delete a task |
+| GET | `/stats` | Productivity statistics |
+| POST | `/ai/ask` | Ask the configured AI provider |
+
+## 🧪 Tests & CI
+
+Run locally:
+
+```bash
+pytest -q
+```
+
+Every push to `main` and pull request runs the test suite through GitHub Actions.
+
+## 🐳 Docker
+
+```bash
+docker build -t devdesk .
+docker run -p 8000:8000 devdesk
+```
+
+`render.yaml` provides a deployment starting point for Render.
+
+> **Production note:** SQLite is excellent for a portfolio/single-instance app. For multi-instance production deployment, move persistent data to PostgreSQL and use a managed secret store.
 
 ## 🛣️ Roadmap
 
 - [x] FastAPI foundation
 - [x] SQLite database
-- [x] Task CRUD API
+- [x] User authentication
+- [x] Task CRUD
 - [x] Dashboard UI
-- [x] Search
-- [x] Quick notes
-- [ ] User authentication
+- [x] Productivity statistics
+- [x] AI provider integration
+- [x] Automated tests + CI
+- [x] Docker deployment setup
 - [ ] Server-side notes API
-- [ ] Productivity charts
-- [ ] AI-powered developer assistant
-- [ ] Automated tests and CI
-- [ ] Deployment
+- [ ] PostgreSQL production storage
+- [ ] Public deployment
 
 ## 🧠 Skills Demonstrated
 
-`Python` `FastAPI` `REST API` `SQLite` `Pydantic` `HTML` `CSS` `JavaScript` `Git` `Linux`
+`Python` `FastAPI` `REST API` `SQLite` `Pydantic` `Authentication` `JavaScript` `HTML` `CSS` `Docker` `GitHub Actions` `AI Integration`
 
 ---
 
