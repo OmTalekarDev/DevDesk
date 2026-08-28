@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevDesk</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span>◈</span> DevDesk</div>
+    <nav>
+      <button class="nav active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav" data-view="tasks">✓ <span>Tasks</span></button>
+      <button class="nav" data-view="notes">✎ <span>Notes</span></button>
+    </nav>
+    <div class="side-footer">v1.0 • Developer workspace</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PERSONAL DEVELOPER WORKSPACE</p>
+        <h1 id="page-title">Dashboard</h1>
+      </div>
+      <button class="theme" id="theme-btn">☼</button>
+    </header>
+
+    <section id="dashboard-view" class="view">
+      <div class="hero">
+        <div><p class="eyebrow">WELCOME BACK</p><h2>Build. Ship. Repeat.</h2><p>Keep your projects, tasks and notes in one place.</p></div>
+        <button class="primary" id="quick-add">+ New task</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Total tasks</span><strong id="total-count">0</strong></div>
+        <div class="stat"><span>Completed</span><strong id="done-count">0</strong></div>
+        <div class="stat"><span>Remaining</span><strong id="todo-count">0</strong></div>
+        <div class="stat"><span>Notes</span><strong id="note-count">0</strong></div>
+      </div>
+      <div class="grid-two">
+        <section class="card"><div class="card-head"><h3>Recent tasks</h3><button class="link" data-view="tasks">View all</button></div><div id="recent-tasks" class="task-list"></div></section>
+        <section class="card"><div class="card-head"><h3>Quick note</h3></div><textarea id="quick-note" placeholder="Capture an idea..."></textarea><button class="primary full" id="save-note">Save note</button></section>
+      </div>
+    </section>
+
+    <section id="tasks-view" class="view hidden">
+      <div class="toolbar"><input id="task-search" placeholder="Search tasks..."><button class="primary" id="new-task">+ New task</button></div>
+      <section class="card"><div id="all-tasks" class="task-list"></div></section>
+    </section>
+
+    <section id="notes-view" class="view hidden">
+      <div class="toolbar"><h2>Notes</h2><button class="primary" id="new-note">+ New note</button></div>
+      <div id="notes-list" class="notes-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="task-dialog">
+    <form method="dialog" id="task-form" class="dialog-form">
+      <h2 id="dialog-title">New task</h2>
+      <input type="hidden" id="task-id">
+      <label>Title<input id="task-title" required maxlength="200"></label>
+      <label>Description<textarea id="task-description" maxlength="2000"></textarea></label>
+      <div class="dialog-actions"><button type="button" class="secondary" id="cancel-task">Cancel</button><button class="primary">Save task</button></div>
+    </form>
+  </dialog>
+  <script src="/static/app.js"></script>
+</body>
+</html>
