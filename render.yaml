@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: devdesk
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: TOKEN_TTL_HOURS
+        value: "24"
+      - key: AI_API_URL
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: gpt-4o-mini
